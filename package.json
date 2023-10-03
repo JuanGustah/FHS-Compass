@@ -1,0 +1,14 @@
+{
+  "name": "desafio1_compass",
+  "version": "1.0.0",
+  "description": "Primeiro desafio do PB Compass",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "JuanGustah",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  }
+}
