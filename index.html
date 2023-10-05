@@ -3,10 +3,119 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forever Home Shelter - Rescue Center</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@500;700&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
     <script type="module" src="dist/bundle.js"></script>
+    <title>Forever Home Shelter - Rescue Center</title>
 </head>
 <body>
-    <h1>Olá mundo</h1>
+    <header class="navbar">
+        <div class="left-options">
+            <img src="./assets/logo.png" alt="Logo">
+            <nav>
+                <ul>
+                    <li>Rescue Center</li>
+                    <li>Apply to Adopt</li>
+                    <li>Volunteer</li>
+                    <li>Ways to give</li>
+                    <li>Events</li>
+                </ul>
+            </nav>
+        </div>
+        <div class="right-options">
+            <div class="phone">
+                <img src="./assets/phone.svg" alt="phone icon">
+                631-249-7325
+            </div>
+            <button type="button" class="donate-button">
+                <img src="./assets/heart.svg" alt="heart icon">
+                Donate
+            </button>
+        </div>
+    </header>
+
+    <!-- Home "Component" -->
+    <template id="home">
+        <section>
+            <hr class="divider">
+            <div class="main">
+                <div class="info">
+                    <h1>Forever Homes Shelter</h1>
+                    <p>
+                        Our mission is to rescue and provide rehabilitation to dogs and cats that are critically injured or neglected. We have already saved the lives of 10,000 animals. We are not just a rescue, we are a refuge.
+                    </p>
+                </div>
+                <div class="cta-block">
+                    <h3>Your Gift Helps Saves Lives</h3>
+                   <div class="button-group">
+                        <button type="button" class="donate-button">
+                            <img src="./assets/heart.svg" alt="heart icon">
+                            Donate
+                        </button>
+                        <button type="button" class="adopt-button">
+                            <img src="./assets/dog.svg" alt="dog icon">
+                            Apply to adopt
+                        </button>
+                   </div>
+                </div>
+                <figure class="main-figure-full-size">
+                    <img src="./assets/main.png" alt="Image of a cat and a dog">
+                </figure>
+                <figure class="main-figure-mobile">
+                    <img src="./assets/main_mobile.png" alt="Image of a dog">
+                </figure>
+            </div>
+        </section>
+    </template>
+
+    <!-- Home "Component" -->
+    <template id="stats">
+        <section class="stats">
+            <h2>With your help, we accomplished these goals</h2>
+            <div id="stats-line">
+
+            </div>
+            <div class="carousel-container">
+                <div class="carousel-row">
+                    <button type="button" class="control-button left">
+                        <img src="./assets/arrow_left.svg" alt="arrow left">
+                    </button>
+                    <div class="carousel">
+                        <img src="./assets/bob.png" alt="orange cat">
+                        <img src="./assets/clorinde.png" alt="white cat">
+                        <img src="./assets/roney.png" alt="brown dog">
+                        <img src="./assets/flocks.png" alt="white dog">
+                        <img src="./assets/aristotle.png" alt="another brown dog">
+                        <img src="./assets/bob.png" alt="orange cat">
+                        <img src="./assets/clorinde.png" alt="white cat">
+                        <img src="./assets/roney.png" alt="brown dog">
+                    </div>
+                    <button type="button" class="control-button right">
+                        <img src="./assets/arrow_right.svg" alt="arrow left">
+                    </button>
+                </div>
+                <div class="carousel-row">
+                    <div class="dots">
+                        <div class="dot active"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                        <div class="dot"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <!-- Stat "Component" -->
+    <template id="stat">
+        <div class="stat">
+            <p></p>
+            <p></p>
+        </div>
+    </template>
+
+    <main id="app"></main>
 </body>
 </html>
