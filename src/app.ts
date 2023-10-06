@@ -50,6 +50,19 @@ class RescueCenterState{
     }
 }
 
+interface Card{
+    title:string;
+    description:string;
+    src?:string;
+    button?:CardButton
+}
+type CardButton = {
+    label:string;
+    backgroundColor:string;
+    textColorIsDark:boolean;
+    link:string
+}
+
 abstract class Component{
     private templateElement: HTMLTemplateElement;
     private injectableElement: HTMLElement;
@@ -87,7 +100,187 @@ class StatComponent extends Component{
         this.element.lastElementChild!.textContent = description;
     }
 }
+abstract class CarouselComponent extends Component{
+    carouselElement:Element;
+    dotsElement:Element[];
+    carouselPosition=0;
 
+    public constructor(templateElement:HTMLTemplateElement,injectableElement:HTMLElement,injectAtStart:boolean){
+        super(templateElement,injectableElement,injectAtStart);
+        this.carouselElement = this.element.querySelector(".carousel")!;
+        this.dotsElement = Array.from(this.element.querySelector(".dots")!.querySelectorAll(".dot"));
+        this.addListeners();
+    }
+
+    public changePosition(position: "left"|"right"){
+        this.resetDots(this.dotsElement);
+
+        switch (position) {
+            case "left":
+                if(this.carouselPosition===0){
+                    this.carouselElement.scrollLeft = 278*4;
+                    this.carouselPosition = 3;
+                    break;
+                }
+                this.carouselElement.scrollLeft -= 278;
+                this.carouselPosition--;
+            break;
+            case "right":
+                if(this.carouselPosition<3){
+                    this.carouselElement.scrollLeft += 278;
+                    this.carouselPosition++;
+                    break;
+                }
+                this.carouselElement.scrollLeft = 0;
+                this.carouselPosition=0;
+            break;
+        }
+        this.dotsElement[this.carouselPosition].classList.add("active");
+    }
+
+    private addListeners(){
+        this.element.querySelector("#left-button")!.addEventListener("click",()=>{this.changePosition("left")});
+        this.element.querySelector("#right-button")!.addEventListener("click",()=>{this.changePosition("right")});
+    }
+
+    private resetDots(dotsList:Element[]){
+        dotsList.forEach(dot => {
+            dot.classList.remove("active")
+        });
+    }
+    abstract drawContent():void;
+}
+class ImageCarousel extends CarouselComponent{
+    imagesAssetsSrc:String[]=[];
+
+    public constructor(templateElement:HTMLTemplateElement,injectableElement:HTMLElement,injectAtStart:boolean){
+        super(templateElement,injectableElement,injectAtStart);
+        this.imagesAssetsSrc.push("bob.png");
+        this.imagesAssetsSrc.push("clorinde.png");
+        this.imagesAssetsSrc.push("roney.png");
+        this.imagesAssetsSrc.push("flocks.png");
+        this.imagesAssetsSrc.push("aristotle.png");
+        this.imagesAssetsSrc.push("bob.png");
+        this.imagesAssetsSrc.push("clorinde.png");
+        this.imagesAssetsSrc.push("roney.png");
+        this.drawContent();
+    }
+
+    drawContent(){
+        this.imagesAssetsSrc.forEach(src => {
+            let img = document.createElement("img");
+            img.src=`./assets/${src}`;
+            this.carouselElement.appendChild(img);
+        });
+    }
+}
+class DonationsCarousel extends CarouselComponent{
+    cardList:Card[]=[];
+
+    public constructor(templateElement:HTMLTemplateElement,injectableElement:HTMLElement,injectAtStart:boolean){
+        super(templateElement,injectableElement,injectAtStart);
+        this.element.classList.add("donation");
+
+        this.cardList.push({title:"Shelter",src:"house.svg",description:"We provide shelter for many of our cats and dogs. In addition to a roof over their heads, we pay for heat, food, water, and electricity, and general maintenance."})
+        this.cardList.push({title:"Vetting",src:"cross.svg",description:"We provide vet care to our cats and dogs. We take care of general health assessments medications, vaccinations, spay/neuter procedures, and other surgeries."})
+        this.cardList.push({title:"Facilities",src:"building.svg",description:"We currently utilize a facility in a dilapidated state, which has necessitated significant investments to make it usable again. We are still restoring the building to its full potential."})
+        this.cardList.push({title:"Transport",src:"paste.svg",description:"Each year, we transport over 600 dogs and 350 cats from kill shelters and emergency distressing situations to hospitals or our shelter, providing them with a second chance at life."})
+        this.cardList.push({title:"Fosters",src:"smile_face.svg",description:"We’re lucky to have a group of individuals who generously foster our cats and dogs in their homes. We cover all their veterinary needs and provide necessary food supplies."})
+        this.cardList.push({title:"Food",src:"bone.svg",description:"Each year, we nourish our  cats and dogs with over 2,200 cans of wet food and 1,600 pounds of dry food to ensure their well-being and keep them content and thriving."})
+    
+        this.drawContent();
+    }
+
+    drawContent(){
+        this.cardList.forEach(data=>{
+            new CardComponent(
+                document.getElementById("card")! as HTMLTemplateElement,
+                this.carouselElement as HTMLElement,
+                false,
+                data.title,
+                data.description,
+                data.src
+            )
+        })
+    }
+}
+class DonationsComponent extends Component{}
+class CardComponent extends Component{
+    private title:string;
+    private description:string;
+    private iconSrc?:string;
+    private cardButton?:CardButton;
+
+    public constructor(
+        templateElement:HTMLTemplateElement,
+        injectableElement:HTMLElement,
+        injectAtStart:boolean,
+        title:string,
+        description:string,
+        iconSrc?:string,
+        button?:CardButton
+    ){
+        super(templateElement,injectableElement,injectAtStart);
+        this.title = title;
+        this.description = description
+        this.iconSrc = iconSrc;
+        this.cardButton = button;
+
+        this.configure();
+    }
+
+    private configure(){
+        let header = this.element.querySelector("header");
+
+        header!.firstElementChild!.textContent = this.title;
+        this.element.querySelector("p")!.textContent = this.description;
+        
+        if(this.iconSrc){
+            let img = document.createElement("img");
+            img.src = `./assets/${this.iconSrc}`;
+            header!.insertAdjacentElement("beforeend",img);
+        }
+
+        if(this.cardButton){
+            let button = document.createElement("button");
+            button.style.backgroundColor = this.cardButton.backgroundColor;
+            button.style.color= this.cardButton.textColorIsDark?"#1E1F27":"#fff";
+            button.textContent = this.cardButton.label;
+            // button. this.cardButton.link;
+            this.element.appendChild(button);
+        }
+    }
+}
+class AdoptionInfoComponent extends Component{}
+class DiffenceComponent extends Component{
+    cardList:Card[]=[];
+
+    public constructor(templateElement:HTMLTemplateElement,injectableElement:HTMLElement,injectAtStart:boolean){
+        super(templateElement,injectableElement,injectAtStart);
+        this.drawCardsRow();
+
+        this.cardList.push({title:"Adopt or Foster",button:{backgroundColor:"#04C27F",textColorIsDark:true,label:"View Adoptables",link:""},description:"Provide a forever or temporary home to a homeless animal."})
+        this.cardList.push({title:"Volunteer",button:{backgroundColor:"#F1D06E",textColorIsDark:true,label:"Get Involved",link:""},description:"We are always in need of passionate and friendly volunteers."})
+        this.cardList.push({title:"Donate Monthly",button:{backgroundColor:"#FF3D9A",textColorIsDark:false,label:"Give Monthly",link:""},description:"Regular donations is a reliable stream of funds to help sustain."})
+        this.cardList.push({title:"Start a Fundraiser",button:{backgroundColor:"#5758F1",textColorIsDark:false,label:"Learn More",link:""},description:"Start a fundraiser to raise funds and help us continue our mission."})
+    
+        this.drawCardsRow();
+    }
+
+    private drawCardsRow(){
+        this.cardList.forEach(data=>{
+            new CardComponent(
+                document.getElementById("card")! as HTMLTemplateElement,
+                this.element.querySelector(".cards-row") as HTMLElement,
+                false,
+                data.title,
+                data.description,
+                undefined,
+                data.button
+            )
+        })
+    }
+}
 class Animal{
     private _name:String;
     private _imgAssetsSrc:String;
@@ -148,4 +341,34 @@ new StatComponent(
     false,
     state.animalsAdopted.toString(),
     "Tails Found a Home"
+)
+
+new ImageCarousel(
+    document.getElementById('carousel')! as HTMLTemplateElement,
+    document.querySelector(".stats")!,
+    false,
+)
+
+new DonationsComponent(
+    document.getElementById('donations')! as HTMLTemplateElement,
+    document.getElementById('app')!,
+    false
+)
+
+new DonationsCarousel(
+    document.getElementById('carousel')! as HTMLTemplateElement,
+    document.querySelector(".donations")!,
+    false
+)
+
+new AdoptionInfoComponent(
+    document.getElementById('adopt_info')! as HTMLTemplateElement,
+    document.getElementById('app')!,
+    false   
+)
+
+new DiffenceComponent(
+    document.getElementById('difference')! as HTMLTemplateElement,
+    document.getElementById('app')!,
+    false   
 )

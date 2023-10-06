@@ -5,6 +5,7 @@
     --gray-light:#F5F5F5;
     --pink:#FF3D9A;
     --pink-hover:#d0347f;
+    --white-text: #ffffffcc;
     --white: #FFF;
     --white-inactive:#4B4C52;
     --black: #1E1F27;
@@ -57,7 +58,102 @@ button.adopt-button{
 
     border: 3px solid var(--black);
 }
+button.adopt-alternative-button{
+    max-width: 14rem;
+    padding: 1rem 2rem;
+    font-size: 1.25rem;
 
+    justify-content: center;
+
+    background-color: var(--black);
+    color: var(--white);
+}
+
+.card{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    border: 3px solid var(--white);
+}
+.card header{
+    display: flex;
+    align-items: center;
+}
+.card header h4{
+    color: var(--white);
+}
+.card p{
+    color: var(--white-text);
+
+    font-family: 'Inter',sans-serif;
+    font-weight: 400;
+    font-size: 1.25rem;
+    line-height: 2rem;
+}
+
+/* CAROUSEL */
+.carousel-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3.75rem;
+}
+.carousel-container .carousel-row{
+    display: flex;
+    align-items: center;
+    gap:2rem;
+}
+.carousel-container .carousel-row .control-button{
+    width: 2.75rem;
+    height: 2.75rem;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    padding: 0;
+}
+.carousel-container .carousel-row .carousel{
+    width: 70rem;
+    overflow-x: hidden;
+
+    display: flex;
+    flex-flow: row nowrap;
+    gap:2rem;
+}
+.carousel-container .carousel-row .dots{
+    display: flex;
+    align-items: center;
+    gap:1rem;
+}
+.carousel-container .carousel-row .dots .dot{
+    width: 1rem;
+    height: 1rem;
+    background-color: var(--white-inactive);
+    border-radius: 50%;
+}
+.carousel-container .carousel-row .dots .dot.active{
+    width: 1rem;
+    height: 1rem;
+    background-color: var(--white);
+    border-radius: 50%;
+}
+
+/* Disabled carousel */
+.carousel-container.donation .carousel-row .control-button{
+    display: none;
+}
+.carousel-container.donation .carousel-row .carousel{
+    width: inherit;    
+    flex-flow: row wrap;
+    justify-content: center;
+
+    gap:3.75rem 2.5rem;
+}
+.carousel-container.donation .carousel-row .dots{
+    display: none;
+}
 
 /* NAV */
 .navbar{
@@ -155,7 +251,7 @@ figure.main-figure-mobile{
 
 /* STATS */
 
-.stats{
+.stats, .donations,.difference{
     background-color: var(--black);
     padding: 5rem 7.25rem;
 
@@ -164,7 +260,7 @@ figure.main-figure-mobile{
     align-items: center;
     gap: 5rem;
 }
-.stats h2{
+.stats h2, .donations h2, .difference h2{
     text-align: center;
     font-size: 3.5rem;
     line-height: 4.2rem;
@@ -202,49 +298,102 @@ figure.main-figure-mobile{
     font-size: 2rem;
     font-weight: 700;
 }
-.stats .carousel-container{
+
+/* DONATIONS */
+.carousel-container.donation .card{
+    gap: 1.5rem;
+
+    width:23.5rem;
+    padding: 3rem 2.5rem 2rem 2.5rem; 
+    border-radius: 2rem;
+}
+.carousel-container.donation .card header{
+    justify-content: space-between;
+}
+
+.carousel-container.donation .card header h4{
+    font-size: 2rem;
+}
+
+/* ADOPTION INFO */
+
+.adopt_info{
+    padding: 5rem 7.25rem;
+
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+.adopt_info h2{
+    flex-basis: 100%;
+    text-align: center;
+
+    font-size: 3.5rem;
+    color: var(--black);
+    line-height: 4.2rem;
+}
+.adopt_info img,.adopt_info .content{
+    flex:1;
+}
+.adopt_info .content{
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 3.75rem;
+    gap:1.25rem;
 }
-.stats .carousel-container .carousel-row{
-    display: flex;
-    align-items: center;
-    gap:2rem;
+.adopt_info .content h4{
+    font-size: 2rem;
+    color: var(--black);
 }
-.stats .carousel-container .carousel-row .control-button{
-    width: 2.75rem;
-    height: 2.75rem;
+.adopt_info .content ul li{
+    font-family: "Inter",sans-serif;
+    font-weight: 500;
+    font-size: 1.5rem;
+    line-height: 2.4rem;
 
+    color: var(--gray-dark);
+    margin: 1.4rem 0;
+}
+
+/* DIFFERENCE */
+.difference header{
     display: flex;
     justify-content: center;
     align-items: center;
-    border-radius: 50%;
+
+    gap:5rem;
+}
+.difference header img:last-child{
+    transform: scaleX(-1);
+}
+.difference h2{
+    width: 39rem;
     padding: 0;
 }
-.stats .carousel-container .carousel-row .carousel{
-    width: 70rem;
-    overflow-x: hidden;
-
-    display: flex;
-    flex-flow: row nowrap;
-    gap:2rem;
-}
-.stats .carousel-container .carousel-row .dots{
+.difference .cards-row{
     display: flex;
     align-items: center;
-    gap:1rem;
+    gap:2.5rem;
 }
-.stats .carousel-container .carousel-row .dots .dot{
-    width: 1rem;
-    height: 1rem;
-    background-color: var(--white-inactive);
-    border-radius: 50%;
+.difference .cards-row .card{
+    gap: 1rem;
+
+    width:17.5rem;
+    padding: 3rem 1.5rem; 
+    border-radius: 1.5rem;
+
+
+    text-align: center;
 }
-.stats .carousel-container .carousel-row .dots .dot.active{
-    width: 1rem;
-    height: 1rem;
-    background-color: var(--white);
-    border-radius: 50%;
+
+.difference .cards-row .card h4{
+    font-size: 1.5rem;
+}
+
+.difference .cards-row .card button{
+    justify-content: center;
+    border-radius: 1rem;
+    padding:1rem 1.4rem;
+    margin-top:2rem;
+    text-size:1.25rem;
 }
