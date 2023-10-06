@@ -76,12 +76,12 @@ abstract class Component{
 
         const templateNode = document.importNode(this.templateElement.content,true);
         this.element = templateNode.firstElementChild!;
-        this.inject(this.injectAtStart);
+        this.inject();
     }
 
-    private inject(injectAtStart:boolean){
+    private inject(){
         this.injectableElement.insertAdjacentElement(
-            injectAtStart?'afterbegin':'beforeend'
+            this.injectAtStart?'afterbegin':'beforeend'
             ,this.element
         );
     }
@@ -100,6 +100,7 @@ class StatComponent extends Component{
         this.element.lastElementChild!.textContent = description;
     }
 }
+
 abstract class CarouselComponent extends Component{
     carouselElement:Element;
     dotsElement:Element[];
@@ -204,6 +205,7 @@ class DonationsCarousel extends CarouselComponent{
         })
     }
 }
+
 class DonationsComponent extends Component{}
 class CardComponent extends Component{
     private title:string;
@@ -252,7 +254,7 @@ class CardComponent extends Component{
     }
 }
 class AdoptionInfoComponent extends Component{}
-class DiffenceComponent extends Component{
+class DifferenceComponent extends Component{
     cardList:Card[]=[];
 
     public constructor(templateElement:HTMLTemplateElement,injectableElement:HTMLElement,injectAtStart:boolean){
@@ -281,6 +283,11 @@ class DiffenceComponent extends Component{
         })
     }
 }
+class AdoptComponent extends Component{
+}
+class NewsletterComponent extends Component{}
+
+
 class Animal{
     private _name:String;
     private _imgAssetsSrc:String;
@@ -367,8 +374,20 @@ new AdoptionInfoComponent(
     false   
 )
 
-new DiffenceComponent(
+new DifferenceComponent(
     document.getElementById('difference')! as HTMLTemplateElement,
     document.getElementById('app')!,
     false   
+)
+
+new AdoptComponent(
+    document.getElementById('adopt')! as HTMLTemplateElement,
+    document.getElementById('app')!,
+    false 
+)
+
+new NewsletterComponent(
+    document.getElementById('newsletter')! as HTMLTemplateElement,
+    document.getElementById('app')!,
+    false 
 )

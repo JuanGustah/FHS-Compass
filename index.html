@@ -36,57 +36,7 @@
         </div>
     </header>
 
-    <!-- Home "Component" -->
-    <template id="home">
-        <section>
-            <hr class="divider">
-            <div class="main">
-                <div class="info">
-                    <h1>Forever Homes Shelter</h1>
-                    <p>
-                        Our mission is to rescue and provide rehabilitation to dogs and cats that are critically injured or neglected. We have already saved the lives of 10,000 animals. We are not just a rescue, we are a refuge.
-                    </p>
-                </div>
-                <div class="cta-block">
-                    <h3>Your Gift Helps Saves Lives</h3>
-                   <div class="button-group">
-                        <button type="button" class="donate-button">
-                            <img src="./assets/heart.svg" alt="heart icon">
-                            Donate
-                        </button>
-                        <button type="button" class="adopt-button">
-                            <img src="./assets/dog.svg" alt="dog icon">
-                            Apply to adopt
-                        </button>
-                   </div>
-                </div>
-                <figure class="main-figure-full-size">
-                    <img src="./assets/main.png" alt="Image of a cat and a dog">
-                </figure>
-                <figure class="main-figure-mobile">
-                    <img src="./assets/main_mobile.png" alt="Image of a dog">
-                </figure>
-            </div>
-        </section>
-    </template>
-
-    <!-- Stats "Component" -->
-    <template id="stats">
-        <section class="stats">
-            <h2>With your help, we accomplished these goals</h2>
-            <div id="stats-line">
-
-            </div>
-        </section>
-    </template>
-
-    <!-- Stat "Component" -->
-    <template id="stat">
-        <div class="stat">
-            <p></p>
-            <p></p>
-        </div>
-    </template>
+    <!-- GENERAL COMPONENTS -->
 
     <!-- Carousel "Component" -->
     <template id="carousel">
@@ -112,12 +62,7 @@
         </div>
     </template>
 
-    <template id="donations">
-        <section class="donations">
-            <h2>With your donations we provide</h2>
-        </section>
-    </template>
-
+    <!-- Card "Component" -->
     <template id="card">
         <div class="card">
             <header>
@@ -127,6 +72,83 @@
         </div>
     </template>
 
+    <!-- CTA "Component" -->
+    <!-- <template>
+        <div class="cta-block">
+            <h3>Your Gift Helps Saves Lives</h3>
+            <div class="button-group">
+                    <button type="button" class="donate-button">
+                        <img src="./assets/heart.svg" alt="heart icon">
+                        Donate
+                    </button>
+                    <button type="button" class="adopt-button">
+                        <img src="./assets/dog.svg" alt="dog icon">
+                        Apply to adopt
+                    </button>
+            </div>
+        </div>
+    </template> -->
+
+    <!-- Stat "Component" -->
+    <template id="stat">
+        <div class="stat">
+            <p></p>
+            <p></p>
+        </div>
+    </template>
+
+    <!-- Home "Component" -->
+    <template id="home">
+        <section>
+            <hr class="divider">
+            <div class="main">
+                <div class="info">
+                    <h1>Forever Homes Shelter</h1>
+                    <p>
+                        Our mission is to rescue and provide rehabilitation to dogs and cats that are critically injured or neglected. We have already saved the lives of 10,000 animals. We are not just a rescue, we are a refuge.
+                    </p>
+                </div>
+                <div class="cta-block">
+                    <h3>Your Gift Helps Saves Lives</h3>
+                    <div class="button-group">
+                            <button type="button" class="donate-button">
+                                <img src="./assets/heart.svg" alt="heart icon">
+                                Donate
+                            </button>
+                            <button type="button" class="adopt-button">
+                                <img src="./assets/dog.svg" alt="dog icon">
+                                Apply to adopt
+                            </button>
+                    </div>
+                </div>
+                <figure class="main-figure-full-size">
+                    <img src="./assets/main.png" alt="Image of a cat and a dog">
+                </figure>
+                <figure class="main-figure-mobile">
+                    <img src="./assets/main_mobile.png" alt="Image of a dog">
+                </figure>
+            </div>
+        </section>
+    </template>
+
+    <!-- Stats "Component" -->
+    <template id="stats">
+        <section class="stats">
+            <h2>With your help, we accomplished these goals</h2>
+            <div id="stats-line">
+
+            </div>
+        </section>
+    </template>
+
+    <!-- Donations "Component" -->
+    <template id="donations">
+        <section class="donations">
+            <h2>With your donations we provide</h2>
+        </section>
+    </template>
+
+    <!-- Adopt Info "Component" -->
     <template id="adopt_info">
         <section class="adopt_info">
             <h2>Adoption information</h2>
@@ -147,6 +169,7 @@
         </section>
     </template>
 
+    <!-- Difference "Component" -->
     <template id="difference">
         <section class="difference">
             <header>
@@ -160,7 +183,83 @@
         </section>
     </template>
 
+    <!-- Adopt "Component" -->
+    <template id="adopt">
+        <section class="adopt">
+            <img class="left" src="./assets/cat_left.png" alt="Cat image">
+            <h2>Find your <mark>best friend</mark> today!</h2>
+            <div class="cta-adopt">
+                <h3>Browse our adorable adoptables</h3>
+                <div class="button-group">
+                    <button type="button" class="adoptables-button">View Adoptables</button>
+                    <button type="button" class="adopt-inverse-button">Apply to Adopt</button>
+                </div>
+            </div>
+            <img class="right" src="./assets/dog_right.png" alt="Dog image">
+        </section>
+    </template>
+
+    <template id="newsletter">
+        <section class="newsletter">
+            <h2>Subscribe to our newsletter</h2>
+            <p>for updates on shelter events, fundraising parties, and heartwarming stories of animals finding their forever homes.</p>
+            <form>
+                <input type="text" placeholder="Enter your email">
+                <button type="button" class="subscribe-button">Subscribe</button>
+            </form>
+        </section>
+    </template>
 
     <main id="app"></main>
+
+    <footer>
+        <section>
+            <figure>
+                <img src="./assets/logo_footer.png" alt="Logo with the name of the company">
+            </figure>
+            <ul>
+                <li>Adopt a Pet</li>
+                <li>Adoptable Dogs</li>
+                <li>Adoptable Cats</li>
+                <li>Become a Foster</li>
+                <li>Rescue Center</li>
+                <li>Get Involved</li>
+            </ul>
+            <ul>
+                <li>Ways to Donate</li>
+                <li>Upcoming Events</li>
+                <li>Outreach Programs</li>
+                <li>Who We Are</li>
+                <li>Contact Us</li>
+                <li>Shop With Purpose</li>
+            </ul>
+            <address>
+                <div class="address-row">
+                    <img src="./assets/location.svg" alt="Pin icon">
+                    <div class="address-colum">
+                        <p>PO Box 83644</p>
+                        <p>Middleton, 2452 Wilson</p>
+                    </div>
+                </div>
+                <div class="address-row">
+                    <img src="./assets/phone.svg" alt="Phone icon">
+                    <p>631-249-7325</p>
+                </div>
+                <div class="address-row">
+                    <img src="./assets/mail.svg" alt="Mail icon">
+                    <p>pet_home@gmail.com</p>
+                </div>
+                <div class="address-row">
+                    <img src="./assets/twitter.svg" alt="Twitter icon">
+                    <img src="./assets/whatsapp.svg" alt="Whatsapp icon">
+                    <img src="./assets/instagram.svg" alt="Instagram icon">
+                </div>
+            </address>
+        </section>
+        <hr class="divider">
+        <div class="slogan">
+            <h2>​We are not just a rescue, <mark>we are a refuge</mark></h2>
+        </div>
+    </footer>
 </body>
 </html>
