@@ -8,34 +8,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Poppins:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <script type="module" src="dist/bundle.js"></script>
+    
     <title>Forever Home Shelter - Rescue Center</title>
 </head>
 <body>
-    <header class="navbar">
-        <div class="left-options">
-            <img src="./assets/logo.png" alt="Logo">
-            <nav>
-                <ul>
-                    <li>Rescue Center</li>
-                    <li>Apply to Adopt</li>
-                    <li>Volunteer</li>
-                    <li>Ways to give</li>
-                    <li>Events</li>
-                </ul>
-            </nav>
-        </div>
-        <div class="right-options">
-            <div class="phone">
-                <img src="./assets/phone.svg" alt="phone icon">
-                631-249-7325
-            </div>
-            <button type="button" class="donate-button">
-                <img src="./assets/heart.svg" alt="heart icon">
-                Donate
-            </button>
-        </div>
-    </header>
-
     <!-- GENERAL COMPONENTS -->
 
     <!-- Carousel "Component" -->
@@ -72,23 +48,6 @@
         </div>
     </template>
 
-    <!-- CTA "Component" -->
-    <!-- <template>
-        <div class="cta-block">
-            <h3>Your Gift Helps Saves Lives</h3>
-            <div class="button-group">
-                    <button type="button" class="donate-button">
-                        <img src="./assets/heart.svg" alt="heart icon">
-                        Donate
-                    </button>
-                    <button type="button" class="adopt-button">
-                        <img src="./assets/dog.svg" alt="dog icon">
-                        Apply to adopt
-                    </button>
-            </div>
-        </div>
-    </template> -->
-
     <!-- Stat "Component" -->
     <template id="stat">
         <div class="stat">
@@ -96,6 +55,49 @@
             <p></p>
         </div>
     </template>
+
+    <!-- Animal Component -->
+    <template id="animal">
+        <div class="animal">
+            <img src="" alt="">
+            <h3></h3>
+            <button class="see-more">
+                <img src="./assets/dog_alt_icon.svg" alt="Dog icon">
+                See more
+            </button>
+        </div>
+    </template>
+
+    <!-- Donate Modal Component -->
+    <dialog>
+        <h2>Choose your Donate</h2>
+        <form>
+            <div class="form-group">
+                <label for="email" class="required">EMAIL</label>
+                <input id="email" type="text">
+            </div>
+            <div class="form-group">
+                <label for="money" class="required">HOW MUCH CAN YOU HELP?</label>
+                <input id="money" type="number">
+            </div>
+            <div class="form-group">
+                <label for="money" class="required">PAYMENT METHOD</label>
+                <input id="money" type="number">
+            </div>
+            <div class="button-group">
+                <button type="button" class="help-button">
+                    <img src="./assets/heart.svg" alt="heart icon">
+                    I wanna  Help!
+                </button>
+                <button type="button" class="back-button">
+                    <img src="./assets/chevron_left.svg" alt="Back icon">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- SECTION COMPONENTS -->
 
     <!-- Home "Component" -->
     <template id="home">
@@ -199,6 +201,7 @@
         </section>
     </template>
 
+    <!-- Newsletter "Component" -->
     <template id="newsletter">
         <section class="newsletter">
             <h2>Subscribe to our newsletter</h2>
@@ -209,6 +212,56 @@
             </form>
         </section>
     </template>
+
+    <!-- Adoptable Pets "Component" -->
+    <template id="pets">
+        <section class="pets">
+            <button type="button" class="back-button">
+                <img src="./assets/chevron_left.svg" alt="back icon">
+                Back
+            </button>
+            <h2>Our Adoptable Pets</h2>
+            <div class="animals-grid">
+            </div>
+        </section>
+    </template>
+
+    <!-- Success "Component" -->
+    <template id="success">
+        <section class="success">
+            <button type="button" class="back-button">
+                <img src="./assets/chevron_left.svg" alt="back icon">
+                Back
+            </button>
+            <h2>Success</h2>
+            <p>Free your creativity and create a beautiful success page to thank your user for subscribing/donating to our project.</p>
+        </section>
+    </template>
+
+    <header class="navbar">
+        <div class="left-options">
+            <img src="./assets/logo.png" alt="Logo">
+            <nav>
+                <ul>
+                    <li>Rescue Center</li>
+                    <li>Apply to Adopt</li>
+                    <li>Volunteer</li>
+                    <li>Ways to give</li>
+                    <li>Events</li>
+                </ul>
+            </nav>
+        </div>
+        <div class="right-options">
+            <div class="phone">
+                <img src="./assets/phone.svg" alt="phone icon">
+                631-249-7325
+            </div>
+            <button type="button" class="donate-button">
+                <img src="./assets/heart.svg" alt="heart icon">
+                Donate
+            </button>
+        </div>
+    </header>
 
     <main id="app"></main>
 
@@ -261,5 +314,6 @@
             <h2>​We are not just a rescue, <mark>we are a refuge</mark></h2>
         </div>
     </footer>
+
 </body>
 </html>

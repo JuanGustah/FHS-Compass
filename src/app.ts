@@ -1,3 +1,17 @@
+interface Card{
+    title:string;
+    description:string;
+    src?:string;
+    button?:CardButton
+}
+type CardButton = {
+    label:string;
+    backgroundColor:string;
+    textColorIsDark:boolean;
+    link:string
+}
+type Pages = "home"|"pets"|"success";
+
 class RescueCenterState{
     private _animalsRescued:number;
     private _animalsAdopted:number;
@@ -12,14 +26,14 @@ class RescueCenterState{
         this._founds = 1400000;
         this._animals=[];
         
-        this._animals.push(new Animal("BOB","bob.png"));
-        this._animals.push(new Animal("CLORINDE","clorinde.png"));
-        this._animals.push(new Animal("RONEY","roney.png"));
-        this._animals.push(new Animal("FLOCKS","flocks.png"));
-        this._animals.push(new Animal("MARY","mary.png"));
-        this._animals.push(new Animal("ROBS","robs.png"));
-        this._animals.push(new Animal("MATT","matt.png"));
-        this._animals.push(new Animal("ARISTOTLE","aristotle.png"));
+        this._animals.push(new Animal("BOB","bob.png","orange cat"));
+        this._animals.push(new Animal("CLORINDE","clorinde.png","white cat"));
+        this._animals.push(new Animal("RONEY","roney.png","brown dog"));
+        this._animals.push(new Animal("FLOCKS","flocks.png","white dog"));
+        this._animals.push(new Animal("MARY","mary.png","gray cat"));
+        this._animals.push(new Animal("ROBS","robs.png","a pug"));
+        this._animals.push(new Animal("MATT","matt.png","gray cat"));
+        this._animals.push(new Animal("ARISTOTLE","aristotle.png","brown dog"));
     }
 
     public static getInstance(){
@@ -49,18 +63,29 @@ class RescueCenterState{
         this._founds += increaseFounds;
     }
 }
+class Animal{
+    private _name:string;
+    private _imgAssetsSrc:string;
+    private _altImgText:string;
 
-interface Card{
-    title:string;
-    description:string;
-    src?:string;
-    button?:CardButton
-}
-type CardButton = {
-    label:string;
-    backgroundColor:string;
-    textColorIsDark:boolean;
-    link:string
+    public constructor(name:string,imgSrc:string,_altImgText:string){
+        this._name = name;
+        this._imgAssetsSrc = imgSrc;
+        this._altImgText = _altImgText;
+    }
+
+    public get name(){
+        return this._name;
+    }
+
+    public get imgAssetsSrc(){
+        return this._imgAssetsSrc;
+    }
+
+    public get altImgText(){
+        return this._altImgText;
+    }
+
 }
 
 abstract class Component{
@@ -84,6 +109,10 @@ abstract class Component{
             this.injectAtStart?'afterbegin':'beforeend'
             ,this.element
         );
+    }
+
+    public destroy(){
+        this.element.remove();
     }
 }
 
@@ -286,108 +315,241 @@ class DifferenceComponent extends Component{
 class AdoptComponent extends Component{
 }
 class NewsletterComponent extends Component{}
+class PetsComponent extends Component{
+    private _animalCollection: Animal[];
 
+    public constructor(
+        templateElement:HTMLTemplateElement,
+        injectableElement:HTMLElement,
+        injectAtStart:boolean, 
+        animalCollection: Animal[],
+        backFunction:Function
+    ){
+        super(templateElement,injectableElement,injectAtStart); 
+        this._animalCollection = animalCollection;
 
-class Animal{
-    private _name:String;
-    private _imgAssetsSrc:String;
-
-    public constructor(name:String,imgSrc:String){
-        this._name = name;
-        this._imgAssetsSrc = imgSrc;
-
+        this.drawAnimals();
+        this.element.querySelector("button")!.addEventListener("click",()=>{
+            backFunction()
+        })
     }
 
-    public get name(){
-        return this._name;
+    private drawAnimals(){
+        this._animalCollection.forEach(animal=>{
+            new AnimalComponent(
+                document.getElementById("animal")! as HTMLTemplateElement,
+                this.element.querySelector(".animals-grid")!,
+                false,
+                animal
+            )
+        })
+    }
+}
+class AnimalComponent extends Component{
+    private animal:Animal;
+
+    public constructor(
+        templateElement:HTMLTemplateElement,
+        injectableElement:HTMLElement,
+        injectAtStart:boolean,
+        animal:Animal
+    ){
+        super(templateElement,injectableElement,injectAtStart); 
+        this.animal = animal;
+        this.drawAnimal();
     }
 
-    public get imgAssetsSrc(){
-        return this._imgAssetsSrc;
+    private drawAnimal(){
+        let img = this.element.querySelector("img")!;
+        img.src = `./assets/${this.animal.imgAssetsSrc}`;
+        img.alt = this.animal.altImgText;
+
+        this.element.querySelector("h3")!.textContent = this.animal.name;
+    }
+}
+class SuccessComponent extends Component{
+    public constructor(
+        templateElement:HTMLTemplateElement,
+        injectableElement:HTMLElement,
+        injectAtStart:boolean,
+        router:Router
+    ){
+        super(templateElement,injectableElement,injectAtStart); 
+        this.element.querySelector("button")!.addEventListener("click",()=>{
+            router.route("home")
+        })
+    }
+}
+class DonateModal{
+    emailInputElement:HTMLInputElement;
+    moneyInputElement:HTMLInputElement;
+    paymentInputElement:HTMLInputElement;
+    buttonHelpElement:HTMLButtonElement;
+    buttonCancelElement:HTMLButtonElement;
+
+    constructor(
+        emailInputElement:HTMLInputElement,
+        moneyInputElement:HTMLInputElement,
+        paymentInputElement:HTMLInputElement,
+        buttonHelpElement:HTMLButtonElement,
+        buttonCancelElement:HTMLButtonElement
+    ){
+        this.emailInputElement = emailInputElement;
+        this.moneyInputElement = moneyInputElement;
+        this.paymentInputElement = paymentInputElement;
+        this.buttonHelpElement = buttonHelpElement;
+        this.buttonCancelElement = buttonCancelElement;
+
+        this.buttonCancelElement.addEventListener("click",this.handleDonate);
     }
 
+    private handleDonate(){
+        console.log("teste")
+    }
+}
+
+class Router{
+    private _page:Pages;
+
+
+    constructor(){
+        this._page = "home";
+        this.route(this._page);
+    }
+
+    public get page(){
+        return this._page;
+    }
+
+    public route(page:Pages){
+        this.clearElements();
+
+        switch(page){
+            case "home":
+                this.routeToHome();
+                break;
+            case "pets":
+                this.routeToPets();
+                break;
+            case "success":
+                this.routeToSuccess();
+                break;
+        }
+    }
+
+    private clearElements(){
+        let children = Array.from(document.getElementById('app')!.children);
+
+        children.forEach(child=>{
+            child.remove();
+        })
+    }
+
+    private routeToHome(){
+        new HomeComponent(
+            document.getElementById('home')! as HTMLTemplateElement,
+            document.getElementById('app')!,
+            true
+        );
+
+        new StatsComponent(
+            document.getElementById('stats')! as HTMLTemplateElement,
+            document.getElementById('app')!,
+            false
+        );
+
+        new StatComponent(
+            document.getElementById('stat')! as HTMLTemplateElement,
+            document.getElementById('stats-line')!,
+            true,
+            state.animalsRescued.toString(),
+            "Animals Rescued"
+        )
+
+        new StatComponent(
+            document.getElementById('stat')! as HTMLTemplateElement,
+            document.getElementById('stats-line')!,
+            false,
+            new Intl.NumberFormat("en-EN",{
+                style:"currency",
+                currency:"USD",
+                notation:"compact",
+            }).format(state.founds).replace('M', ' Milion'),
+            "Raised"
+        )
+
+        new StatComponent(
+            document.getElementById('stat')! as HTMLTemplateElement,
+            document.getElementById('stats-line')!,
+            false,
+            state.animalsAdopted.toString(),
+            "Tails Found a Home"
+        )
+
+        new ImageCarousel(
+            document.getElementById('carousel')! as HTMLTemplateElement,
+            document.querySelector(".stats")!,
+            false,
+        )
+
+        new DonationsComponent(
+            document.getElementById('donations')! as HTMLTemplateElement,
+            document.getElementById('app')!,
+            false
+        )
+
+        new DonationsCarousel(
+            document.getElementById('carousel')! as HTMLTemplateElement,
+            document.querySelector(".donations")!,
+            false
+        )
+
+        new AdoptionInfoComponent(
+            document.getElementById('adopt_info')! as HTMLTemplateElement,
+            document.getElementById('app')!,
+            false   
+        )
+
+        new DifferenceComponent(
+            document.getElementById('difference')! as HTMLTemplateElement,
+            document.getElementById('app')!,
+            false   
+        )
+
+        new AdoptComponent(
+            document.getElementById('adopt')! as HTMLTemplateElement,
+            document.getElementById('app')!,
+            false 
+        )
+
+        new NewsletterComponent(
+            document.getElementById('newsletter')! as HTMLTemplateElement,
+            document.getElementById('app')!,
+            false 
+        )   
+    }
+
+    private routeToPets(){
+        new PetsComponent(
+            document.getElementById("pets")! as HTMLTemplateElement,
+            document.getElementById('app')!,
+            true,
+            state.animals,
+            ()=>{this.route("home")}
+        )
+    }
+
+    private routeToSuccess(){
+        new SuccessComponent(
+            document.getElementById("success")! as HTMLTemplateElement,
+            document.getElementById('app')!,
+            true,
+            this
+        )
+    }
 }
 
 const state = RescueCenterState.getInstance();
+const router = new Router();
+router.route("success");
 
-new HomeComponent(
-    document.getElementById('home')! as HTMLTemplateElement,
-    document.getElementById('app')!,
-    true
-);
-
-new StatsComponent(
-    document.getElementById('stats')! as HTMLTemplateElement,
-    document.getElementById('app')!,
-    false
-);
-
-new StatComponent(
-    document.getElementById('stat')! as HTMLTemplateElement,
-    document.getElementById('stats-line')!,
-    true,
-    state.animalsRescued.toString(),
-    "Animals Rescued"
-)
-
-new StatComponent(
-    document.getElementById('stat')! as HTMLTemplateElement,
-    document.getElementById('stats-line')!,
-    false,
-    new Intl.NumberFormat("en-EN",{
-        style:"currency",
-        currency:"USD",
-        notation:"compact",
-    }).format(state.founds).replace('M', ' Milion'),
-    "Raised"
-)
-
-new StatComponent(
-    document.getElementById('stat')! as HTMLTemplateElement,
-    document.getElementById('stats-line')!,
-    false,
-    state.animalsAdopted.toString(),
-    "Tails Found a Home"
-)
-
-new ImageCarousel(
-    document.getElementById('carousel')! as HTMLTemplateElement,
-    document.querySelector(".stats")!,
-    false,
-)
-
-new DonationsComponent(
-    document.getElementById('donations')! as HTMLTemplateElement,
-    document.getElementById('app')!,
-    false
-)
-
-new DonationsCarousel(
-    document.getElementById('carousel')! as HTMLTemplateElement,
-    document.querySelector(".donations")!,
-    false
-)
-
-new AdoptionInfoComponent(
-    document.getElementById('adopt_info')! as HTMLTemplateElement,
-    document.getElementById('app')!,
-    false   
-)
-
-new DifferenceComponent(
-    document.getElementById('difference')! as HTMLTemplateElement,
-    document.getElementById('app')!,
-    false   
-)
-
-new AdoptComponent(
-    document.getElementById('adopt')! as HTMLTemplateElement,
-    document.getElementById('app')!,
-    false 
-)
-
-new NewsletterComponent(
-    document.getElementById('newsletter')! as HTMLTemplateElement,
-    document.getElementById('app')!,
-    false 
-)

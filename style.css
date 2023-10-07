@@ -13,6 +13,8 @@
     --gray-dark: #37383F;
     --yellow:#F8DB46;
     --purple:#5758F1;
+    --purple-light:#937AFF;
+    --blue-light:#3F96FC;
 }
 
 /* reset navigator styles*/
@@ -89,6 +91,28 @@ button.subscribe-button{
     padding: 1rem 1.7rem;
     color: var(--black);
 }
+button.back-button{
+    background-color: var(--gray-dark);
+    color: var(--white);
+
+    width: fit-content;
+    padding:1rem 2rem;
+
+    font-size: 1.25rem;
+}
+button.see-more{
+    color: var(--white);
+    background-color: var(--pink);
+
+    padding:1.125rem 3.5rem;
+}
+button.help-button{
+    color: var(--white);
+    background-color: var(--pink);
+    font-size: 1.25rem;
+
+    padding:1rem 2rem;
+}
 
 .card{
     display: flex;
@@ -111,6 +135,69 @@ button.subscribe-button{
     font-weight: 400;
     font-size: 1.25rem;
     line-height: 2rem;
+}
+
+dialog{
+    width: 30rem;
+    left:50%;
+    top:50%;
+    transform: translate(-50%, -50%);
+    padding:2rem;
+
+    border:0;
+    border-radius: 2rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap:3rem;
+}
+dialog::backdrop{
+    background: #000000bf;
+}
+dialog h2{
+    font-size: 3rem;
+    color:var(--black);
+    text-align: center;
+    line-height: 3.6rem;
+    letter-spacing: -2%;
+}
+dialog form{
+    display: flex;
+    flex-direction: column;
+    gap:1.5rem;
+}
+dialog form .form-group{
+    display: flex;
+    flex-direction: column;
+}
+dialog form .form-group label{
+    font-size: 0.75rem;
+    color:var(--pink);
+    font-weight: 700;
+}
+dialog form .form-group label.required::after{
+    content:" *";
+    color: var(--blue-light);
+}
+dialog form .form-group input{
+    border:2px solid  var(--purple-light);
+    border-radius: 0.5rem;
+
+    width: 26rem;
+    padding:1rem;
+
+    font-family: "Poppins",sans-serif;
+    font-weight: 500;
+    color: var(--black);
+}
+dialog form .button-group{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap:1.5rem;
 }
 
 /* CAROUSEL */
@@ -416,7 +503,7 @@ figure.main-figure-mobile{
     border-radius: 1rem;
     padding:1rem 1.4rem;
     margin-top:2rem;
-    text-size:1.25rem;
+    font-size:1.25rem;
 }
 
 /* ADOPT */
@@ -568,4 +655,54 @@ footer .slogan mark{
 }
 footer .divider{
     margin:0;
+}
+
+/* ADOPTABLE PETS */
+.pets{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap:5rem;
+
+    background-color: var(--black);
+
+    padding:6rem 7.25rem;
+}
+.pets h2{
+    font-size: 3.5rem;
+    color: var(--white);
+}
+.pets .animals-grid{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+
+    gap:3.75rem;
+}
+.pets .animals-grid .animal{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap:0.75rem;
+
+}
+.pets .animals-grid h3{
+    font-size: 2rem;
+    color: var(--white);
+}
+
+/* SUCESS */
+.success{
+    display: flex;
+    flex-direction: column;
+    gap:3rem;
+
+    padding:6rem 7.25rem;
+}
+
+.success h2{
+    font-size: 3.5rem;
+    color: var(--gray-dark);
 }
