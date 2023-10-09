@@ -15,6 +15,7 @@
     --purple:#5758F1;
     --purple-light:#937AFF;
     --blue-light:#3F96FC;
+    --green:#04C27F;
 }
 
 /* reset navigator styles*/
@@ -89,6 +90,8 @@ button.adoptables-button{
 button.subscribe-button{
     font-size: 1.25rem;
     padding: 1rem 1.7rem;
+
+    background-color: var(--white);
     color: var(--black);
 }
 button.back-button{
@@ -112,6 +115,30 @@ button.help-button{
     font-size: 1.25rem;
 
     padding:1rem 2rem;
+}
+button.adopt-alt-button{
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+
+    background-color: var(--green);
+    color: var(--white);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+button.back-alt-button{
+    width: 100%;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+
+    background-color: var(--gray-dark);
+    color: var(--white);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .card{
@@ -146,20 +173,21 @@ dialog{
 
     border:0;
     border-radius: 2rem;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap:3rem;
 }
 dialog::backdrop{
     background: #000000bf;
 }
+dialog header{
+    margin-bottom: 3rem;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
 dialog h2{
     font-size: 3rem;
     color:var(--black);
-    text-align: center;
     line-height: 3.6rem;
     letter-spacing: -2%;
 }
@@ -172,7 +200,7 @@ dialog form .form-group{
     display: flex;
     flex-direction: column;
 }
-dialog form .form-group label{
+dialog form .form-group>label{
     font-size: 0.75rem;
     color:var(--pink);
     font-weight: 700;
@@ -181,16 +209,71 @@ dialog form .form-group label.required::after{
     content:" *";
     color: var(--blue-light);
 }
-dialog form .form-group input{
-    border:2px solid  var(--purple-light);
+dialog form .form-group input[type=text],
+dialog form .form-group input[type=email],
+dialog form .form-group input[type=number],
+dialog form .form-group select
+{
+    border:2px solid  var(--blue-light);
     border-radius: 0.5rem;
 
-    width: 26rem;
     padding:1rem;
 
     font-family: "Poppins",sans-serif;
     font-weight: 500;
+    font-size: 1rem;
     color: var(--black);
+}
+dialog form .form-group input:focus,dialog form .form-group input:focus-visible{
+    outline: none;
+    border-color: var(--purple-light);
+}
+dialog form .form-group input[type=number]::-webkit-outer-spin-button,
+dialog form .form-group input[type=number]::-webkit-inner-spin-button{
+    -webkit-appearance: none;
+}
+
+dialog form .form-group input[type=radio]{
+    display: none;
+}
+dialog form .form-group .payment-row .custom-radio{
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: var(--gray-dark);
+    border-radius: 50%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+dialog form .form-group .payment-row{
+    display: flex;
+    align-items: center;
+    gap:1rem;
+}
+dialog form .form-group .payment-row label{
+    display: flex;
+    align-items: center;
+
+
+    border:2px solid  var(--blue-light);
+    border-radius: 0.5rem;
+    padding:1rem;
+
+    cursor: pointer;
+}
+input[type=radio]:checked+ label{
+    background-color: var(--blue-light);
+    color: var(--white);
+}
+input[type=radio]:checked+ label .custom-radio{
+    background-color: var(--pink);
+}
+input[type=radio]:checked+ label .custom-radio:after{
+    content: url('./assets/checkmark.svg');
+}
+dialog form .form-group .payment-row label p{
+    width: 4.3rem;
 }
 dialog form .button-group{
     display: flex;
@@ -199,6 +282,57 @@ dialog form .button-group{
     justify-content: center;
     gap:1.5rem;
 }
+dialog form .form-group .date-row{
+    display: flex;
+    justify-content: space-between;
+    gap:0.5rem;
+}
+dialog form .form-group .date-row select{
+    flex:1;
+}
+dialog form .check-row label{
+    font-family: 'Poppins',sans-serif;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1rem;
+    color: var(--black);
+
+    display: flex;
+    align-items: center;
+}
+dialog form .check-row label mark{
+    background-color: transparent;
+    color:var(--pink);
+    margin:0 0.2rem;
+}
+dialog form .check-row input[type=checkbox]{
+    display: none;
+}
+dialog form .check-row .custom-checkbox{
+    width: 1.5rem;
+    height: 1.5rem;
+    background-color: var(--gray-dark);
+    border-radius: 50%;
+
+    margin-inline-end: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2px;
+}
+dialog form .check-row input[type=checkbox]:checked + label .custom-checkbox{
+    background-color: var(--pink);
+    color: var(--white);
+}
+dialog form .check-row input[type=checkbox]:checked + label .custom-checkbox::after{
+    content: url('./assets/checkmark.svg');
+}
+dialog#adopt-modal form .button-group{
+    gap:0.75rem;
+}
+
+/* dialog form .check-row input[type=checkbox] */
+
 
 /* CAROUSEL */
 .carousel-container{
@@ -599,6 +733,15 @@ figure.main-figure-mobile{
 }
 .newsletter form input::placeholder{
     color:var(--white-placeholder);
+}
+.newsletter .error-message{
+    display: none;
+    
+    color: var(--white);
+
+    font-family: 'Poppins',sans-serif;
+    font-size: 1.25rem;
+    line-height: 2rem;
 }
 
 /* FOOTER */

@@ -4,13 +4,20 @@ interface Card{
     src?:string;
     button?:CardButton
 }
+interface Validable{
+    value: string | number;
+    isRequired?: boolean;
+    isEmail?: boolean;
+}
+
 type CardButton = {
     label:string;
     backgroundColor:string;
     textColorIsDark:boolean;
-    link:string
+    clickFunction?:clickFunction
 }
 type Pages = "home"|"pets"|"success";
+type clickFunction = ()=>void;
 
 class RescueCenterState{
     private _animalsRescued:number;
@@ -116,7 +123,26 @@ abstract class Component{
     }
 }
 
-class HomeComponent extends Component{}
+class HomeComponent extends Component{
+    donateButtonElement:HTMLButtonElement;
+    adoptButtonElement:HTMLButtonElement;
+
+    constructor(
+        templateElement:HTMLTemplateElement,
+        injectableElement:HTMLElement,
+        injectAtStart:boolean,
+        modalDonate:HTMLDialogElement,
+        modalAdopt:HTMLDialogElement,
+    ){
+        super(templateElement,injectableElement,injectAtStart);
+
+        this.donateButtonElement = this.element.querySelector(".donate-button")! as HTMLButtonElement;
+        this.adoptButtonElement = this.element.querySelector(".adopt-button")! as HTMLButtonElement;
+
+        this.donateButtonElement.addEventListener("click",()=>{modalDonate.showModal()})
+        this.adoptButtonElement.addEventListener("click",()=>{modalAdopt.showModal()})
+    }
+}
 class StatsComponent extends Component{}
 class StatComponent extends Component{
     constructor(templateElement:HTMLTemplateElement,injectableElement:HTMLElement,injectAtStart:boolean,mainText:string, description:string){
@@ -207,7 +233,12 @@ class ImageCarousel extends CarouselComponent{
 class DonationsCarousel extends CarouselComponent{
     cardList:Card[]=[];
 
-    public constructor(templateElement:HTMLTemplateElement,injectableElement:HTMLElement,injectAtStart:boolean){
+    public constructor(
+        templateElement:HTMLTemplateElement,
+        injectableElement:HTMLElement,
+        injectAtStart:boolean,
+        router:Router
+    ){
         super(templateElement,injectableElement,injectAtStart);
         this.element.classList.add("donation");
 
@@ -277,23 +308,44 @@ class CardComponent extends Component{
             button.style.backgroundColor = this.cardButton.backgroundColor;
             button.style.color= this.cardButton.textColorIsDark?"#1E1F27":"#fff";
             button.textContent = this.cardButton.label;
-            // button. this.cardButton.link;
+            
+            if(this.cardButton.clickFunction){
+                button.addEventListener("click",this.cardButton.clickFunction);
+            }
+
             this.element.appendChild(button);
         }
     }
 }
-class AdoptionInfoComponent extends Component{}
+class AdoptionInfoComponent extends Component{
+    adoptButtonElement:HTMLButtonElement;
+
+    constructor(
+        templateElement:HTMLTemplateElement,
+        injectableElement:HTMLElement,
+        injectAtStart:boolean,
+        modalAdopt:HTMLDialogElement,
+    ){
+        super(templateElement,injectableElement,injectAtStart);
+        this.adoptButtonElement = this.element.querySelector(".adopt-alternative-button")! as HTMLButtonElement;
+        this.adoptButtonElement.addEventListener("click",()=>{modalAdopt.showModal()})
+    }
+}
 class DifferenceComponent extends Component{
     cardList:Card[]=[];
 
-    public constructor(templateElement:HTMLTemplateElement,injectableElement:HTMLElement,injectAtStart:boolean){
+    public constructor(
+        templateElement:HTMLTemplateElement,
+        injectableElement:HTMLElement,
+        injectAtStart:boolean
+    ){
         super(templateElement,injectableElement,injectAtStart);
         this.drawCardsRow();
 
-        this.cardList.push({title:"Adopt or Foster",button:{backgroundColor:"#04C27F",textColorIsDark:true,label:"View Adoptables",link:""},description:"Provide a forever or temporary home to a homeless animal."})
-        this.cardList.push({title:"Volunteer",button:{backgroundColor:"#F1D06E",textColorIsDark:true,label:"Get Involved",link:""},description:"We are always in need of passionate and friendly volunteers."})
-        this.cardList.push({title:"Donate Monthly",button:{backgroundColor:"#FF3D9A",textColorIsDark:false,label:"Give Monthly",link:""},description:"Regular donations is a reliable stream of funds to help sustain."})
-        this.cardList.push({title:"Start a Fundraiser",button:{backgroundColor:"#5758F1",textColorIsDark:false,label:"Learn More",link:""},description:"Start a fundraiser to raise funds and help us continue our mission."})
+        this.cardList.push({title:"Adopt or Foster",button:{backgroundColor:"#04C27F",textColorIsDark:true,label:"View Adoptables",clickFunction:()=>{router.route("pets")}},description:"Provide a forever or temporary home to a homeless animal."})
+        this.cardList.push({title:"Volunteer",button:{backgroundColor:"#F1D06E",textColorIsDark:true,label:"Get Involved"},description:"We are always in need of passionate and friendly volunteers."})
+        this.cardList.push({title:"Donate Monthly",button:{backgroundColor:"#FF3D9A",textColorIsDark:false,label:"Give Monthly"},description:"Regular donations is a reliable stream of funds to help sustain."})
+        this.cardList.push({title:"Start a Fundraiser",button:{backgroundColor:"#5758F1",textColorIsDark:false,label:"Learn More"},description:"Start a fundraiser to raise funds and help us continue our mission."})
     
         this.drawCardsRow();
     }
@@ -313,8 +365,66 @@ class DifferenceComponent extends Component{
     }
 }
 class AdoptComponent extends Component{
+    viewAdoptabelsButtonElement:HTMLButtonElement;
+    adoptButtonElement:HTMLButtonElement;
+
+    public constructor(
+        templateElement:HTMLTemplateElement,
+        injectableElement:HTMLElement,
+        injectAtStart:boolean,
+        router:Router,
+        modalAdopt:HTMLDialogElement,
+    ){
+        super(templateElement,injectableElement,injectAtStart);
+
+        this.viewAdoptabelsButtonElement = this.element.querySelector(".adoptables-button")! as HTMLButtonElement;
+        this.adoptButtonElement = this.element.querySelector(".adopt-inverse-button")! as HTMLButtonElement;
+        
+        this.viewAdoptabelsButtonElement.addEventListener("click",()=>{router.route("pets")});
+        this.adoptButtonElement.addEventListener("click",()=>{modalAdopt.showModal()})
+    }
 }
-class NewsletterComponent extends Component{}
+class NewsletterComponent extends Component{
+    formElement:HTMLFormElement;
+    emailInputElement:HTMLInputElement;
+    subscribeButtonElement:HTMLButtonElement;
+    router:Router;
+
+    public constructor(
+        templateElement:HTMLTemplateElement,
+        injectableElement:HTMLElement,
+        injectAtStart:boolean,
+        router:Router
+    ){
+        super(templateElement,injectableElement,injectAtStart);
+
+        this.router = router;
+        this.formElement = this.element.querySelector('form')! as HTMLFormElement;
+        this.emailInputElement = this.formElement.elements[0] as HTMLInputElement;
+        this.subscribeButtonElement = this.formElement.elements[1] as HTMLButtonElement;
+
+        this.formElement.addEventListener("submit",this.handleSubmit.bind(this));
+    }
+
+    private handleSubmit(event:Event){
+        event.preventDefault();
+        let errorMessage = this.element.querySelector(".error-message") as HTMLDivElement;
+        errorMessage.style.display = "none";
+
+        let validateEmail = {
+            value:this.emailInputElement.value,
+            isRequired:true,
+            isEmail:true
+        }
+
+        if(validator(validateEmail)){
+            router.route("success");
+        }else{
+            errorMessage.style.display = "block";
+        }
+
+    }
+}
 class PetsComponent extends Component{
     private _animalCollection: Animal[];
 
@@ -380,37 +490,98 @@ class SuccessComponent extends Component{
         })
     }
 }
-class DonateModal{
+
+class Modal{
+    modalElement:HTMLDialogElement;
+    formElements:HTMLFormControlsCollection;
+    router:Router;
+    state?:RescueCenterState;
+
+    constructor(modalElement:HTMLDialogElement,router:Router,state?:RescueCenterState){
+        this.modalElement = modalElement;
+        this.formElements = this.modalElement.querySelector("form")!.elements;
+        this.router = router;
+        this.state = state;
+    }
+
+    public openModal(){
+        this.modalElement.showModal();
+    }
+
+    public closeModal(){
+        this.modalElement.close();
+    }
+}
+
+class DonateModal extends Modal{
     emailInputElement:HTMLInputElement;
     moneyInputElement:HTMLInputElement;
-    paymentInputElement:HTMLInputElement;
+    paymentInputElement:NodeListOf<HTMLInputElement>;
     buttonHelpElement:HTMLButtonElement;
     buttonCancelElement:HTMLButtonElement;
 
-    constructor(
-        emailInputElement:HTMLInputElement,
-        moneyInputElement:HTMLInputElement,
-        paymentInputElement:HTMLInputElement,
-        buttonHelpElement:HTMLButtonElement,
-        buttonCancelElement:HTMLButtonElement
-    ){
-        this.emailInputElement = emailInputElement;
-        this.moneyInputElement = moneyInputElement;
-        this.paymentInputElement = paymentInputElement;
-        this.buttonHelpElement = buttonHelpElement;
-        this.buttonCancelElement = buttonCancelElement;
+    constructor(modalElement:HTMLDialogElement,router:Router,state:RescueCenterState){
+        super(modalElement,router,state);
 
-        this.buttonCancelElement.addEventListener("click",this.handleDonate);
+        this.modalElement = document.getElementById("donate-modal")! as HTMLDialogElement;
+        this.emailInputElement = document.getElementById("email_donate")! as HTMLInputElement;
+        this.moneyInputElement = document.getElementById("money_donate")! as HTMLInputElement;
+        this.paymentInputElement = this.modalElement.querySelectorAll("input[name='payment']");
+        this.buttonHelpElement = this.modalElement.querySelector(".help-button")! as HTMLButtonElement ;
+        this.buttonCancelElement = this.modalElement.querySelector(".back-button")! as HTMLButtonElement ;
+        
+        this.buttonHelpElement.addEventListener("click",this.handleDonate.bind(this));
+        this.buttonCancelElement.addEventListener("click",()=>{this.closeModal()});
     }
 
     private handleDonate(){
-        console.log("teste")
+        //validação
+        const donationValue = Number(this.moneyInputElement.value);
+        if(donationValue){
+            state.increaseFounds(donationValue);
+        }
+
+        this.closeModal();
+        this.router.route("success");
+    }
+}
+class AdoptModal extends Modal{
+    emailInputElement:HTMLInputElement;
+    nameInputElement:HTMLInputElement;
+    dayDateBirhtElement:HTMLSelectElement;
+    monthDateBirhtElement:HTMLSelectElement;
+    yearDateBirhtElement:HTMLSelectElement;
+    buttonAdoptElement:HTMLButtonElement;
+    buttonCancelElement:HTMLButtonElement;
+
+    constructor(modalElement:HTMLDialogElement,router:Router){
+        super(modalElement,router,state);
+
+        this.modalElement = document.getElementById("adopt-modal")! as HTMLDialogElement;
+        this.emailInputElement = document.getElementById("email-adopt")! as HTMLInputElement;
+        this.nameInputElement = document.getElementById("name-adopt")! as HTMLInputElement;
+        this.dayDateBirhtElement = document.getElementById("day-adopt")! as HTMLSelectElement;
+        this.monthDateBirhtElement = document.getElementById("month-adopt")! as HTMLSelectElement;
+        this.yearDateBirhtElement = document.getElementById("year-adopt")! as HTMLSelectElement;
+        this.buttonAdoptElement = this.modalElement.querySelector(".adopt-alt-button")! as HTMLButtonElement ;
+        this.buttonCancelElement = this.modalElement.querySelector(".back-alt-button")! as HTMLButtonElement ;
+        
+        this.buttonAdoptElement.addEventListener("click",this.handleAdopt.bind(this));
+        this.buttonCancelElement.addEventListener("click",()=>{this.closeModal()});
+    }
+
+    private handleAdopt(){
+        //validação
+        console.log("teste");
+        
+
+        this.closeModal();
+        this.router.route("success");
     }
 }
 
 class Router{
     private _page:Pages;
-
 
     constructor(){
         this._page = "home";
@@ -449,7 +620,9 @@ class Router{
         new HomeComponent(
             document.getElementById('home')! as HTMLTemplateElement,
             document.getElementById('app')!,
-            true
+            true,
+            document.getElementById("donate-modal")! as HTMLDialogElement,
+            document.getElementById("adopt-modal")! as HTMLDialogElement
         );
 
         new StatsComponent(
@@ -501,13 +674,15 @@ class Router{
         new DonationsCarousel(
             document.getElementById('carousel')! as HTMLTemplateElement,
             document.querySelector(".donations")!,
-            false
+            false,
+            this
         )
 
         new AdoptionInfoComponent(
             document.getElementById('adopt_info')! as HTMLTemplateElement,
             document.getElementById('app')!,
-            false   
+            false,
+            document.getElementById("adopt-modal")! as HTMLDialogElement
         )
 
         new DifferenceComponent(
@@ -519,13 +694,16 @@ class Router{
         new AdoptComponent(
             document.getElementById('adopt')! as HTMLTemplateElement,
             document.getElementById('app')!,
-            false 
+            false,
+            this,
+            document.getElementById("adopt-modal")! as HTMLDialogElement
         )
 
         new NewsletterComponent(
             document.getElementById('newsletter')! as HTMLTemplateElement,
             document.getElementById('app')!,
-            false 
+            false,
+            this
         )   
     }
 
@@ -549,7 +727,37 @@ class Router{
     }
 }
 
+function validator(validableObject:Validable){
+    const value = validableObject.value;
+    let isValid = true;    
+
+    if(validableObject.isRequired){
+        isValid = isValid && value.toString().length !==0;
+    }
+
+    if(validableObject.isEmail){
+        //regex para validação de e-mail explicado em https://www.abstractapi.com/guides/email-validation-regex-javascript
+        isValid = isValid && value.toString().match(/^[A-Za-z0-9_!#$%&'*+\/=?`{|}~^.-]+@[A-Za-z0-9.-]+$/) !== null;
+    }
+
+    return isValid;
+}
+
 const state = RescueCenterState.getInstance();
 const router = new Router();
-router.route("success");
 
+const adoptModal = new AdoptModal(
+    document.getElementById("adopt-modal")! as HTMLDialogElement,
+    router
+);
+new DonateModal(
+    document.getElementById("donate-modal")! as HTMLDialogElement,
+    router,
+    state,
+);
+
+
+//adicionando event listener para o botão do navbar
+document.querySelector("header.navbar .donate-button")!.addEventListener("click",()=>{
+    adoptModal.openModal()
+})

@@ -69,20 +69,38 @@
     </template>
 
     <!-- Donate Modal Component -->
-    <dialog>
-        <h2>Choose your Donate</h2>
+    <dialog id="donate-modal">
+        <header>
+            <h2>Choose your Donate</h2>
+        </header>
         <form>
             <div class="form-group">
-                <label for="email" class="required">EMAIL</label>
-                <input id="email" type="text">
+                <label for="email_donate" class="required">EMAIL</label>
+                <input id="email_donate" type="email">
             </div>
             <div class="form-group">
-                <label for="money" class="required">HOW MUCH CAN YOU HELP?</label>
-                <input id="money" type="number">
+                <label for="money_donate" class="required">HOW MUCH CAN YOU HELP?</label>
+                <input id="money_donate" type="number">
             </div>
             <div class="form-group">
-                <label for="money" class="required">PAYMENT METHOD</label>
-                <input id="money" type="number">
+                <label class="required">PAYMENT METHOD</label>
+                <div class="payment-row">
+                    <input id="payment" type="radio" name="payment">
+                    <label for="payment">
+                        <p>Pix</p>
+                        <div class="custom-radio"></div>
+                    </label>
+                    <input id="payment2" type="radio" name="payment">
+                    <label for="payment2">
+                        <p>Credit Card</p>
+                        <div class="custom-radio"></div>
+                    </label>
+                    <input id="payment3" type="radio" name="payment">
+                    <label for="payment3">
+                        <p>Paypal</p>
+                        <div class="custom-radio"></div>
+                    </label>
+                </div>
             </div>
             <div class="button-group">
                 <button type="button" class="help-button">
@@ -90,6 +108,55 @@
                     I wanna  Help!
                 </button>
                 <button type="button" class="back-button">
+                    <img src="./assets/chevron_left.svg" alt="Back icon">
+                    Cancel
+                </button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- Adopt Modal Component -->
+    <dialog id="adopt-modal">
+        <header>
+            <h2>Apply to Adopt</h2>
+            <p>Small text description can goes here</p>
+        </header>
+        <form>
+            <div class="form-group">
+                <label for="email-adopt" class="required">EMAIL</label>
+                <input id="email-adopt" type="email">
+            </div>
+            <div class="form-group">
+                <label for="name-adopt" class="required">FULL NAME</label>
+                <input id="name-adopt" type="text">
+            </div>
+            <div class="form-group">
+                <label class="required">DATE OF BIRTH</label>
+                <div class="date-row">
+                    <select name="day" id="day-adopt">
+                        <option value="" selected disabled>Day</option>
+                    </select>
+                    <select name="month" id="month-adopt">
+                        <option value="" selected disabled>Month</option>
+                    </select>
+                    <select name="year" id="year-adopt">
+                        <option value="" selected disabled>Year</option>
+                    </select>
+                </div>
+            </div>
+            <div class="check-row">
+                <input type="checkbox" name="check-agree" id="check-agree">
+                <label for="check-agree">
+                    <div class="custom-checkbox"></div>
+                    I agree with <mark>Privacy Policy </mark> and <mark>Terms of Conditions</mark>
+                </label>
+            </div>
+            <div class="button-group">
+                <button type="button" class="adopt-alt-button">
+                    <img src="./assets/dog_alt_icon.svg" alt="dog icon">
+                    I wanna Adopt!
+                </button>
+                <button type="button" class="back-alt-button">
                     <img src="./assets/chevron_left.svg" alt="Back icon">
                     Cancel
                 </button>
@@ -208,8 +275,9 @@
             <p>for updates on shelter events, fundraising parties, and heartwarming stories of animals finding their forever homes.</p>
             <form>
                 <input type="text" placeholder="Enter your email">
-                <button type="button" class="subscribe-button">Subscribe</button>
+                <button type="submit" class="subscribe-button">Subscribe</button>
             </form>
+            <div class="error-message">O e-mail inserido não é válido!</div>
         </section>
     </template>
 
