@@ -1,6 +1,6 @@
 # Forever Homes Shelter
 <p align="center">
-<img src="sreenshot.png">
+<img src="assets/screenshot.png">
 </p>
 
 ## Why? 🤔
