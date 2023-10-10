@@ -29,7 +29,6 @@
 body{
     background: var(--gray-light);
     font-family: 'Poppins',sans-serif;
-    font-size: 16px;
 }
 
 /* config for buttons */
@@ -47,21 +46,26 @@ button{
     gap:.6rem;
 
     cursor: pointer;
+    height: 4rem;
 }
 
 button.donate-button{
     color: var(--white);
     background-color: var(--pink);
+
+    padding:1rem 2rem;
 }
-button.donate-button:hover{
-    background-color: var(--pink-hover);
-    transition: background-color 0.4s;
+button.donate-button img{
+    width: 2rem;
 }
 button.adopt-button{
     background-color: transparent;
     color:var(--black);
 
-    border: 3px solid var(--black);
+    border: 0.1875rem solid var(--black);
+}
+button.adopt-button img{
+    width: 2rem;
 }
 button.adopt-inverse-button{
     background-color: transparent;
@@ -70,6 +74,8 @@ button.adopt-inverse-button{
     border: 3px solid var(--white);
     padding:1.12rem 2rem;
     font-size: 1.25rem;
+
+    justify-content: center;
 }
 button.adopt-alternative-button{
     max-width: 14rem;
@@ -362,7 +368,7 @@ dialog#adopt-modal form .button-group{
 
     display: flex;
     flex-flow: row nowrap;
-    gap:2rem;
+    column-gap:2rem;
 }
 .carousel-container .carousel-row .dots{
     display: flex;
@@ -390,8 +396,8 @@ dialog#adopt-modal form .button-group{
     width: inherit;    
     flex-flow: row wrap;
     justify-content: center;
-
-    gap:3.75rem 2.5rem;
+    row-gap:3.7rem;
+    column-gap:2.5rem;
 }
 .carousel-container.donation .carousel-row .dots{
     display: none;
@@ -404,8 +410,15 @@ dialog#adopt-modal form .button-group{
     justify-content: space-between;
 
     font-family: 'Inter', sans-serif;
-    padding:1.5rem 7.25rem;
+    font-size: 1.25rem;
     color:var(--black);
+
+    width: 90%;
+    max-width: 1208px;
+    margin: 0 auto;
+
+    padding:1.5rem 0;
+    gap:0.75rem 0;
 }
 .navbar .left-options,.navbar .right-options{
     display: flex;
@@ -420,6 +433,7 @@ dialog#adopt-modal form .button-group{
     list-style-type: none;
     font-weight: 700;
     align-items: center;
+    flex-wrap: wrap;
     gap:1rem;
 }
 .navbar .right-options .phone{
@@ -429,23 +443,26 @@ dialog#adopt-modal form .button-group{
 
     font-weight: 700;
 }
-.navbar .right-options .phone{
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+.navbar .right-options .phone img{
+    width: 1.5rem;
 }
 
 /* MAIN */
 .divider{
     border: 1px solid black;
-    margin:0 7.25rem;
+    width: 90%;
+    margin:0 auto;
+    max-width: 1208px;
 }
 .main{
     display: grid;
     grid-template-areas: "info image"
                          "cta  image";
     gap: 0 2rem;
-    margin:5.11rem 7.25rem;
+
+    width: 90%;
+    max-width: 1208px;
+    margin:5.11rem auto;
 }
 .main .info{
     grid-area: info;
@@ -495,14 +512,16 @@ figure.main-figure-mobile{
 
 .stats, .donations,.difference{
     background-color: var(--black);
-    padding: 5rem 7.25rem;
+    padding: 5rem 0;
 
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 5rem;
 }
-.stats h2, .donations h2, .difference h2{
+.stats h2, .donations h2
+ /* .difference h2 */
+ {
     text-align: center;
     font-size: 3.5rem;
     line-height: 4.2rem;
@@ -559,15 +578,16 @@ figure.main-figure-mobile{
 
 /* ADOPTION INFO */
 
-.adopt_info{
-    padding: 5rem 7.25rem;
+.adopt-info{
+    width: 90%;
+    margin: 5rem auto;
 
     display: flex;
     align-items: center;
     gap: 1.5rem;
     flex-wrap: wrap;
 }
-.adopt_info h2{
+.adopt-info h2{
     flex-basis: 100%;
     text-align: center;
 
@@ -575,19 +595,19 @@ figure.main-figure-mobile{
     color: var(--black);
     line-height: 4.2rem;
 }
-.adopt_info img,.adopt_info .content{
+.adopt-info img,.adopt-info .content{
     flex:1;
 }
-.adopt_info .content{
+.adopt-info .content{
     display: flex;
     flex-direction: column;
     gap:1.25rem;
 }
-.adopt_info .content h4{
+.adopt-info .content h4{
     font-size: 2rem;
     color: var(--black);
 }
-.adopt_info .content ul li{
+.adopt-info .content ul li{
     font-family: "Inter",sans-serif;
     font-weight: 500;
     font-size: 1.5rem;
@@ -603,14 +623,27 @@ figure.main-figure-mobile{
     justify-content: center;
     align-items: center;
 
-    gap:5rem;
+    position: relative;
+    /* gap:5rem; */
+}
+.difference header h2{
+    text-align: center;
+    font-size: 3.5rem;
+    line-height: 4.2rem;
+
+    color: var(--white);
+    padding:0 15rem;
+}
+.difference header img.left{
+    position: absolute;
+    left:10rem;
+}
+.difference header img.right{
+    position: absolute;
+    right:10rem;
 }
 .difference header img:last-child{
     transform: scaleX(-1);
-}
-.difference h2{
-    width: 39rem;
-    padding: 0;
 }
 .difference .cards-row{
     display: flex;
@@ -644,7 +677,7 @@ figure.main-figure-mobile{
 .adopt{
     background-color: var(--black);
 
-    padding: 5rem 7.25rem;
+    padding: 5rem 0;
 
     display: flex;
     flex-direction: column;
@@ -652,16 +685,18 @@ figure.main-figure-mobile{
     gap: 3.7rem;
 
     position:relative;
+
+    overflow: hidden;
 }
 .adopt img{
     position: absolute;
     bottom:0;
 }
 .adopt img.left{
-    left:4.12rem;
+    left:-1rem;
 }
 .adopt img.right{
-    right:4.12rem;
+    right:-1rem;
 }
 .adopt h2{
     font-size: 3.5rem;
@@ -701,9 +736,11 @@ figure.main-figure-mobile{
 .newsletter h2{
     font-size: 3.5rem;
     color: var(--white);
+    text-align: center;
 }
 .newsletter p{
     font-size: 1.25rem;
+    line-height: 2rem;
     color: var(--white);
 
     max-width: 61%;
@@ -746,7 +783,9 @@ figure.main-figure-mobile{
 
 /* FOOTER */
 footer{
-    margin:5.11rem 7.25rem;
+    width: 90%;
+    max-width: 1208px;
+    margin:5.11rem auto;
     
     display: flex;
     flex-direction: column;
@@ -755,6 +794,7 @@ footer{
 footer section{
     display: flex;
     gap:2.5rem;
+    flex-wrap: wrap;
 }
 footer section ul,footer section address{
     list-style-type: none;
@@ -778,7 +818,7 @@ footer section ul li,footer section address .address-row p{
 footer section address .address-row{
     display: flex;
     align-items: center;
-    gap:0.72rem;
+    gap:1.5rem;
 }
 footer section address .address-row:first-child{
     align-items: baseline;
@@ -792,12 +832,18 @@ footer .slogan{
 
     color: var(--black);
 }
+footer .slogan h2{
+    font-size: 1.9rem;
+}
+
 footer .slogan mark{
     background-color: transparent;
     color: var(--pink);
 }
 footer .divider{
     margin:0;
+    width: 100%;
+    margin:0 auto;
 }
 
 /* ADOPTABLE PETS */
@@ -838,14 +884,310 @@ footer .divider{
 
 /* SUCESS */
 .success{
+    max-width: 80%;
+    margin:6rem auto;
+
+    display: flex;
+    justify-content: space-between;
+}
+.success .content{
     display: flex;
     flex-direction: column;
     gap:3rem;
-
-    padding:6rem 7.25rem;
 }
 
 .success h2{
     font-size: 3.5rem;
-    color: var(--gray-dark);
+    color: var(--pink);
+}
+.success p{
+    font-family: 'Inter',sans-serif;
+    font-weight: 500;
+    color:var(--gray-dark);
+    font-size: 1.3rem;
+
+    max-width: 40rem;
+}
+.success aside{
+    width: 30rem;
+    display: flex;
+    flex-direction: column;
+
+    padding:0 3rem;
+}
+.success aside img{
+    width: 10rem;
+    opacity: 0;
+}
+.success aside .paw1{
+    transform: rotate(-45deg);
+    animation-name: paws;
+    animation-delay: 1s;
+    animation-duration: 2s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+}
+.success aside .paw2{
+    transform: rotate(45deg);
+    align-self: end;
+    animation-name: paws;
+    animation-delay: 3s;
+    animation-duration: 2s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+}
+.success aside .paw3{
+    transform: rotate(-45deg);
+    animation-name: paws;
+    animation-delay: 4s;
+    animation-duration: 2s;
+    animation-direction: alternate;
+    animation-iteration-count: infinite;
+}
+
+@keyframes paws {
+    0%{
+        opacity: 0;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+@media only screen and (min-width: 2500px) {
+    :root{
+        font-size: 16px;
+    }
+    .adopt-info img, .adopt-info{
+        justify-content: center;
+        gap:2.5rem;
+    }
+    .adopt-info img, .adopt-info .content{
+        flex:none;
+    }
+    .carousel-container.donation .carousel-row .carousel{
+        width: 75.5rem;
+    }
+    .adopt img.left{
+        left: 33rem;
+    }
+    .adopt img.right{
+        right: 33rem;
+    }
+    .newsletter p{
+        max-width: 30%;
+    }
+}
+@media only screen and (max-width: 1024px) {
+    :root{
+        font-size: 12px;
+    }
+    .adopt-info img, .adopt-info .content{
+        width: 50%;
+    }
+    .adopt img{
+        height: 100%;
+    }
+    footer section ul, footer section address{
+        width: initial;
+    }
+    footer section figure img{
+        width: 80%;
+    }
+}
+@media only screen and (max-width: 768px) {
+    :root{
+        font-size: 9.3px;
+    }
+    .carousel-container .carousel-row .carousel{
+        width: 56rem;
+    }
+    .adopt img{
+        height: 85%;
+    }
+    footer section{
+        gap:1.2rem;
+    }
+    footer section figure img{
+        width: 65%;
+    }
+}
+/* mobile */
+@media only screen and (max-width: 600px) {
+    :root{
+        font-size: 16px;
+    }
+    .navbar{
+        flex-direction: column;
+    }
+    .navbar .left-options{
+        flex-direction: column;
+    }
+    .navbar ul{
+        justify-content: center;
+    }
+    .main{
+        grid-template-areas: "info"
+                             "image"
+                             "cta";
+        justify-items: center;
+        gap:2rem 0;
+    }
+    .main .info h1{
+        font-size: 3rem;
+        line-height: 3.6rem;
+    }
+    .main .main-figure-full-size{
+        display: none;
+    }
+    .main .main-figure-mobile{
+        display: block;
+        grid-area: image;
+    }
+    .main .cta-block{
+        text-align: center;
+    }
+    .main .cta-block .button-group{
+        flex-direction: column;
+        gap:1rem;
+    }
+
+    .stats h2,.donations h2{
+        font-size: 3rem;
+        padding:0;
+    }
+    .stats #stats-line{
+        flex-direction: column;
+    }
+    .carousel-container .carousel-row{
+        gap:0.7rem;
+    }
+    .carousel-container .carousel-row .carousel{
+        width: 16rem;
+    }
+    .carousel-container.donation .carousel-row .control-button{
+        display: flex;
+    }
+    .carousel-container.donation .carousel-row .dots{
+        display: flex;
+    }
+    .carousel-container.donation .carousel-row .carousel{
+        width: 17.5rem;
+        flex-flow: row nowrap;
+        justify-content: initial;
+    }
+    .carousel-container.donation .card{
+        gap: 1.5rem;
+    
+        min-width:17.5rem;
+    }
+    .card header{
+        gap:1rem;
+    }
+    .card header h4{
+        font-size: 2rem;
+    }
+
+    .adopt-info img{
+        order:3;
+        width: 100%;
+    }
+    .adopt-info ul{
+        margin-inline-start: 1.5rem;
+    }
+    .difference header h2{
+        font-size: 3rem;
+        padding:0;
+    }
+    .difference header img.left{
+        left:1.5rem;
+    }
+    .difference header img.right{
+        right:1.5rem;
+    }
+    .difference .cards-row{
+        flex-direction: column;
+    }
+    .adopt {
+        text-align: center;
+        padding:5rem 0 7.5rem 0;
+    }
+    .adopt h2{
+        text-align: center;
+        font-size: 3rem;
+    }
+    .adopt .cta-adopt .button-group{
+        flex-direction: column;
+    }
+    .adopt img{
+        height: 16.5rem;
+    }
+    .adopt img.left{
+        left:-5.6rem;
+    }
+    .adopt img.right{
+        right:-6.5rem;
+    }
+
+    .newsletter{
+        padding:5rem 2.25rem;
+    }
+
+    .newsletter h2{
+        line-height: 4.2rem;
+    }
+    .newsletter p{
+        max-width: inherit;
+    }
+    .newsletter form{
+        flex-direction: column;
+    }
+
+    footer section{
+        gap:2.5rem 0;
+    }
+    footer section figure{
+        flex-basis: 100%;
+        display: flex;
+        justify-content: end;
+    }
+    footer section ul{
+        flex:0.5;
+    }
+    footer section address{
+        flex:1;
+    }
+    footer section address .address-row.center{
+        justify-content: center;
+    }
+    footer .slogan mark{
+        display: block;
+    }
+
+    dialog#adopt-modal{
+        padding:2rem 1.43rem;
+    }
+    dialog#donate-modal{
+        padding:2rem 1.43rem;
+    }
+    dialog h2{
+        gap:0;
+    }
+    dialog h2{
+        font-size: 2.6rem;
+    }
+    dialog form .check-row label mark{
+        margin:0 0.1rem;
+    }
+    dialog form .form-group .payment-row label{
+        padding:0.8rem
+    }
+    dialog form .form-group .payment-row label p{
+        width: 3rem;
+        font-size: 14px;
+    }
+    .success{
+        flex-direction: column;
+        gap:5rem;
+    }
 }

@@ -158,32 +158,41 @@ class StatComponent extends Component{
 
 abstract class CarouselComponent extends Component{
     carouselElement:Element;
-    dotsElement:Element[];
+    dotsElement:Element[] = [];
+    dotsQtd:number;
     carouselPosition=0;
 
-    public constructor(templateElement:HTMLTemplateElement,injectableElement:HTMLElement,injectAtStart:boolean){
+    public constructor(
+        templateElement:HTMLTemplateElement,
+        injectableElement:HTMLElement,
+        injectAtStart:boolean,
+        dotsQtd:number
+    ){
         super(templateElement,injectableElement,injectAtStart);
         this.carouselElement = this.element.querySelector(".carousel")!;
-        this.dotsElement = Array.from(this.element.querySelector(".dots")!.querySelectorAll(".dot"));
-        this.addListeners();
+        this.dotsQtd = dotsQtd;
+        this.configure();
     }
 
     public changePosition(position: "left"|"right"){
         this.resetDots(this.dotsElement);
-
+        let gap = Number(window.getComputedStyle(this.carouselElement,null).getPropertyValue("column-gap").replace("px",""));
+        let sizeOfChild = this.carouselElement.firstElementChild!.getBoundingClientRect().width
+        let size= sizeOfChild + gap;
+        
         switch (position) {
             case "left":
                 if(this.carouselPosition===0){
-                    this.carouselElement.scrollLeft = 278*4;
-                    this.carouselPosition = 3;
+                    this.carouselElement.scrollLeft = size*(this.dotsQtd-1);
+                    this.carouselPosition = (this.dotsQtd-1);
                     break;
                 }
-                this.carouselElement.scrollLeft -= 278;
+                this.carouselElement.scrollLeft -= size;
                 this.carouselPosition--;
             break;
             case "right":
-                if(this.carouselPosition<3){
-                    this.carouselElement.scrollLeft += 278;
+                if(this.carouselPosition<(this.dotsQtd-1)){
+                    this.carouselElement.scrollLeft += size;
                     this.carouselPosition++;
                     break;
                 }
@@ -191,12 +200,24 @@ abstract class CarouselComponent extends Component{
                 this.carouselPosition=0;
             break;
         }
+        
         this.dotsElement[this.carouselPosition].classList.add("active");
     }
 
-    private addListeners(){
-        this.element.querySelector("#left-button")!.addEventListener("click",()=>{this.changePosition("left")});
-        this.element.querySelector("#right-button")!.addEventListener("click",()=>{this.changePosition("right")});
+    private configure(){
+        let dotsDiv = this.element.querySelector(".dots")!;
+        
+        for (let index = 0; index < this.dotsQtd; index++) {
+            let dot = document.createElement("div");
+            dot.classList.add("dot");
+
+            this.dotsElement.push(dot);
+            dotsDiv.appendChild(dot);
+        }
+        this.dotsElement[0].classList.add("active");
+
+        this.element.querySelector(".control-button.left")!.addEventListener("click",()=>{this.changePosition("left")});
+        this.element.querySelector(".control-button.right")!.addEventListener("click",()=>{this.changePosition("right")});
     }
 
     private resetDots(dotsList:Element[]){
@@ -210,7 +231,7 @@ class ImageCarousel extends CarouselComponent{
     imagesAssetsSrc:String[]=[];
 
     public constructor(templateElement:HTMLTemplateElement,injectableElement:HTMLElement,injectAtStart:boolean){
-        super(templateElement,injectableElement,injectAtStart);
+        super(templateElement,injectableElement,injectAtStart,5);
         this.imagesAssetsSrc.push("bob.png");
         this.imagesAssetsSrc.push("clorinde.png");
         this.imagesAssetsSrc.push("roney.png");
@@ -236,10 +257,9 @@ class DonationsCarousel extends CarouselComponent{
     public constructor(
         templateElement:HTMLTemplateElement,
         injectableElement:HTMLElement,
-        injectAtStart:boolean,
-        router:Router
+        injectAtStart:boolean
     ){
-        super(templateElement,injectableElement,injectAtStart);
+        super(templateElement,injectableElement,injectAtStart,6);
         this.element.classList.add("donation");
 
         this.cardList.push({title:"Shelter",src:"house.svg",description:"We provide shelter for many of our cats and dogs. In addition to a roof over their heads, we pay for heat, food, water, and electricity, and general maintenance."})
@@ -524,8 +544,8 @@ class DonateModal extends Modal{
         super(modalElement,router,state);
 
         this.modalElement = document.getElementById("donate-modal")! as HTMLDialogElement;
-        this.emailInputElement = document.getElementById("email_donate")! as HTMLInputElement;
-        this.moneyInputElement = document.getElementById("money_donate")! as HTMLInputElement;
+        this.emailInputElement = document.getElementById("email-donate")! as HTMLInputElement;
+        this.moneyInputElement = document.getElementById("money-donate")! as HTMLInputElement;
         this.paymentInputElement = this.modalElement.querySelectorAll("input[name='payment']");
         this.buttonHelpElement = this.modalElement.querySelector(".help-button")! as HTMLButtonElement ;
         this.buttonCancelElement = this.modalElement.querySelector(".back-button")! as HTMLButtonElement ;
@@ -566,14 +586,36 @@ class AdoptModal extends Modal{
         this.buttonAdoptElement = this.modalElement.querySelector(".adopt-alt-button")! as HTMLButtonElement ;
         this.buttonCancelElement = this.modalElement.querySelector(".back-alt-button")! as HTMLButtonElement ;
         
+        for (let day = 1; day <= 31; day++) {
+            let opt = document.createElement("option");
+            opt.value = day.toString();
+            opt.innerHTML = day.toString();
+
+            this.dayDateBirhtElement.append(opt);
+        }
+
+        for (let month = 1; month <= 12; month++) {
+            let opt = document.createElement("option");
+            opt.value = month.toString();
+            opt.innerHTML = month.toString();
+
+            this.monthDateBirhtElement.append(opt);
+        }
+
+        for (let year = 2023; year >= 1970; year--) {
+            let opt = document.createElement("option");
+            opt.value = year.toString();
+            opt.innerHTML = year.toString();
+
+            this.yearDateBirhtElement.append(opt);
+        }
+
         this.buttonAdoptElement.addEventListener("click",this.handleAdopt.bind(this));
         this.buttonCancelElement.addEventListener("click",()=>{this.closeModal()});
     }
 
     private handleAdopt(){
         //validação
-        console.log("teste");
-        
 
         this.closeModal();
         this.router.route("success");
@@ -674,12 +716,11 @@ class Router{
         new DonationsCarousel(
             document.getElementById('carousel')! as HTMLTemplateElement,
             document.querySelector(".donations")!,
-            false,
-            this
+            false
         )
 
         new AdoptionInfoComponent(
-            document.getElementById('adopt_info')! as HTMLTemplateElement,
+            document.getElementById('adopt-info')! as HTMLTemplateElement,
             document.getElementById('app')!,
             false,
             document.getElementById("adopt-modal")! as HTMLDialogElement
@@ -745,6 +786,7 @@ function validator(validableObject:Validable){
 
 const state = RescueCenterState.getInstance();
 const router = new Router();
+router.route("success");
 
 const adoptModal = new AdoptModal(
     document.getElementById("adopt-modal")! as HTMLDialogElement,

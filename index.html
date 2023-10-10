@@ -18,21 +18,17 @@
     <template id="carousel">
         <div class="carousel-container">
             <div class="carousel-row">
-                <button type="button" id="left-button" class="control-button left">
+                <button type="button" class="control-button left">
                     <img src="./assets/arrow_left.svg" alt="arrow left">
                 </button>
                 <div class="carousel">
                 </div>
-                <button type="button" id="right-button" class="control-button right">
+                <button type="button" class="control-button right">
                     <img src="./assets/arrow_right.svg" alt="arrow left">
                 </button>
             </div>
             <div class="carousel-row">
                 <div class="dots">
-                    <div class="dot active"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
-                    <div class="dot"></div>
                 </div>
             </div>
         </div>
@@ -75,12 +71,12 @@
         </header>
         <form>
             <div class="form-group">
-                <label for="email_donate" class="required">EMAIL</label>
-                <input id="email_donate" type="email">
+                <label for="email-donate" class="required">EMAIL</label>
+                <input id="email-donate" type="email">
             </div>
             <div class="form-group">
-                <label for="money_donate" class="required">HOW MUCH CAN YOU HELP?</label>
-                <input id="money_donate" type="number">
+                <label for="money-donate" class="required">HOW MUCH CAN YOU HELP?</label>
+                <input id="money-donate" type="number">
             </div>
             <div class="form-group">
                 <label class="required">PAYMENT METHOD</label>
@@ -97,7 +93,7 @@
                     </label>
                     <input id="payment3" type="radio" name="payment">
                     <label for="payment3">
-                        <p>Paypal</p>
+                        <p>Pay pal</p>
                         <div class="custom-radio"></div>
                     </label>
                 </div>
@@ -205,7 +201,6 @@
         <section class="stats">
             <h2>With your help, we accomplished these goals</h2>
             <div id="stats-line">
-
             </div>
         </section>
     </template>
@@ -218,8 +213,8 @@
     </template>
 
     <!-- Adopt Info "Component" -->
-    <template id="adopt_info">
-        <section class="adopt_info">
+    <template id="adopt-info">
+        <section class="adopt-info">
             <h2>Adoption information</h2>
             <img src="./assets/adoption_info.png" alt="Brown dog and cat">
             <div class="content">
@@ -242,9 +237,9 @@
     <template id="difference">
         <section class="difference">
             <header>
-                <img src="./assets/heart_draw.svg" alt="Heart drawed by hand">
+                <img class="left" src="./assets/heart_draw.svg" alt="Heart drawed by hand">
                 <h2>How you can make a difference</h2>
-                <img src="./assets/heart_draw.svg" alt="Heart drawed by hand">
+                <img class="right" src="./assets/heart_draw.svg" alt="Heart drawed by hand">
             </header>
             <div class="cards-row">
 
@@ -297,12 +292,19 @@
     <!-- Success "Component" -->
     <template id="success">
         <section class="success">
-            <button type="button" class="back-button">
-                <img src="./assets/chevron_left.svg" alt="back icon">
-                Back
-            </button>
-            <h2>Success</h2>
-            <p>Free your creativity and create a beautiful success page to thank your user for subscribing/donating to our project.</p>
+            <div class="content">
+                <button type="button" class="back-button">
+                    <img src="./assets/chevron_left.svg" alt="back icon">
+                    Back
+                </button>
+                <h2>Success!</h2>
+                <p>We extend our heartfelt gratitude for choosing our animal adoption software. Your decision to open your heart and home to a furry companion is not only a wonderful gift to them but also a testament to your compassion and kindness. Together, we're making a difference in the lives of these precious animals, providing them with the love and care they deserve. </p>
+            </div>
+            <aside>
+                <img src="./assets/paw1.svg" alt="paw icon" class="paw1">
+                <img src="./assets/paw2.svg" alt="paw icon" class="paw2">
+                <img src="./assets/paw3.svg" alt="paw icon" class="paw3">
+            </aside>
         </section>
     </template>
 
@@ -370,7 +372,7 @@
                     <img src="./assets/mail.svg" alt="Mail icon">
                     <p>pet_home@gmail.com</p>
                 </div>
-                <div class="address-row">
+                <div class="address-row center">
                     <img src="./assets/twitter.svg" alt="Twitter icon">
                     <img src="./assets/whatsapp.svg" alt="Whatsapp icon">
                     <img src="./assets/instagram.svg" alt="Instagram icon">
@@ -379,7 +381,7 @@
         </section>
         <hr class="divider">
         <div class="slogan">
-            <h2>​We are not just a rescue, <mark>we are a refuge</mark></h2>
+            <h2>We are not just a rescue, <mark>we are a refuge</mark></h2>
         </div>
     </footer>
 
