@@ -1190,4 +1190,7 @@ footer .divider{
         flex-direction: column;
         gap:5rem;
     }
+    .pets h2{
+        text-align: center;
+    }
 }
